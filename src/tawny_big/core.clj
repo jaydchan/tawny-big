@@ -2,22 +2,26 @@
   (:use [tawny.owl])
   (:gen-class))
 
+;; why o para?
+;; tawny.owl uses prefixes by default
+(defn iri-gen-example
+  [o iri]
+  (tawny.owl/iri iri))
+
 (defn create-big
   "Create a big ontology"
   [size]
 
   ;; create ontology
   (defontology example
-    :iri "https://www.example.com/"
+    :iri-gen iri-gen-example
     :noname true)
 
   ;; for x in 0..size, create and add class
   (dotimes [x size]
-    (owl-class-explicit example (str (+ x 1)) ()))
+    (owl-class-explicit example (str "https://www.example.com/o" (+ x 1)) ()))
 
   ;; println ontology
-  (println example)
-  (println (owl-class "1"))
   (println example)
 
   ;; save ontology in .omn and .owl format
